@@ -23,7 +23,6 @@
             color: #fff;
         }
 
-        /* Yıldızlı Arka Plan Canvas */
         #starsCanvas {
             position: absolute;
             top: 0;
@@ -33,7 +32,6 @@
             z-index: 1;
         }
 
-        /* Ana Konteyner */
         .container {
             position: relative;
             z-index: 10;
@@ -56,7 +54,6 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Başlık & İsim */
         .header-title {
             font-size: 1.8rem;
             font-weight: 800;
@@ -74,7 +71,6 @@
             font-weight: 300;
         }
 
-        /* Canlı Zaman Sayacı Box */
         .counter-box {
             display: flex;
             justify-content: space-around;
@@ -103,7 +99,6 @@
             margin-top: 2px;
         }
 
-        /* Dönen Plak Görsel Efekti */
         .music-player {
             display: flex;
             align-items: center;
@@ -123,7 +118,7 @@
             border-radius: 50%;
             border: 2px solid #ff007f;
             animation: spin 4s linear infinite;
-            animation-play-state: paused; /* Müzik çalınca dönecek */
+            animation-play-state: paused;
         }
 
         @keyframes spin {
@@ -145,7 +140,6 @@
             font-size: 0.7rem;
         }
 
-        /* Kart İçeriği */
         .content-card {
             min-height: 120px;
             display: flex;
@@ -163,7 +157,6 @@
             font-weight: 400;
         }
 
-        /* Özel Buton */
         .custom-btn {
             width: 100%;
             padding: 15px;
@@ -185,11 +178,6 @@
             box-shadow: 0 15px 35px rgba(255, 0, 85, 0.6);
         }
 
-        .custom-btn:active {
-            transform: translateY(1px);
-        }
-
-        /* Uçuşan Kalpler */
         .heart-particle {
             position: absolute;
             pointer-events: none;
@@ -213,8 +201,8 @@
 
     <canvas id="starsCanvas"></canvas>
 
-    <!-- Ses Dosyası Entegrasyonu -->
-    <audio id="bgMusic" loop>
+    <!-- Müzik Ses Kaynağı -->
+    <audio id="bgMusic" loop preload="auto">
         <source src="papatya.mp3" type="audio/mpeg">
     </audio>
 
@@ -222,7 +210,6 @@
         <h1 class="header-title">Hümeyra & Ben</h1>
         <p class="subtitle">Aramızdaki Her Bir Saniyenin Anısına ✨</p>
 
-        <!-- Canlı Sayaç -->
         <div class="counter-box">
             <div class="time-unit">
                 <span class="time-value" id="days">00</span>
@@ -242,7 +229,6 @@
             </div>
         </div>
 
-        <!-- Müzik Detayı -->
         <div class="music-player">
             <div class="vinyl" id="vinylRecord"></div>
             <div class="song-info">
@@ -251,18 +237,16 @@
             </div>
         </div>
 
-        <!-- İnteraktif Mesaj Alanı -->
         <div class="content-card">
             <p class="message-text" id="msgArea">
-                Müziği açıp bizim dünyamıza girmek için aşağıdaki butona dokun Hümeyra'm... 🎶❤️
+                Aşağıdaki butona dokunduğunda şarkımız en güzel yerinden çalmaya başlayacak Hümeyra'm... 🎶❤️
             </p>
         </div>
 
-        <button class="custom-btn" onclick="nextMessage()" id="mainBtn">Müziği Başlat & Dokun ✨</button>
+        <button class="custom-btn" onclick="nextMessage()" id="mainBtn">Müziği Aç & Başla ✨</button>
     </div>
 
     <script>
-        // --- 1. Yıldızlı Arka Plan Efekti ---
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -301,7 +285,6 @@
         }
         drawStars();
 
-        // --- 2. İlişki / Birliktelik Zaman Sayacı ---
         const startDate = new Date(2026, 7, 28, 0, 0, 0); 
 
         function updateCounter() {
@@ -321,7 +304,6 @@
         setInterval(updateCounter, 1000);
         updateCounter();
 
-        // --- 3. Mesaj Akışı & Müzik Kontrolü ---
         const messages = [
             "Aramızdaki mesafeler haritada ne kadar uzak görünürse görünsün, kalbimin attığı her yerde sen varsın Hümeyra. 🌌",
             "Uzak mesafeden sevmektir asıl emek... Görmeden, dokunmadan sadece hissettiklerinle birini dünyan yapmak. 🌼",
@@ -337,13 +319,14 @@
             const music = document.getElementById('bgMusic');
             const vinyl = document.getElementById('vinylRecord');
 
-            // İlk dokunuşta müziği başlat
+            // İlk tıklamada müziği en romantik yerinden (45. saniyeden) başlatır
             if (!isMusicPlaying) {
+                music.currentTime = 45; // Şarkıyı 45. saniyeden başlatır
                 music.play().then(() => {
                     vinyl.style.animationPlayState = 'running';
                     isMusicPlaying = true;
                 }).catch(err => {
-                    console.log("Ses yürütülemedi:", err);
+                    console.log("Ses yürütme kısıtlaması:", err);
                 });
             }
 
@@ -370,7 +353,6 @@
             createBurstHearts(8);
         }
 
-        // --- 4. Kalp Efektleri ---
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-particle');
